@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 19:22:05 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/18 23:49:37 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/11/19 00:16:47 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int		is_comment(char *str);
 int		command(char *str);
 int 	is_room(char *str);
 int		is_link(char *str);
+int		is_name(char *str);
 void	error(char *str);
 void	linkadd(t_links **links, t_links *new);
 void	roomadd(t_rooms **room, t_rooms *new);

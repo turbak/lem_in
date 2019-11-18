@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 16:55:31 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/18 19:44:29 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/11/19 00:15:55 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ int	command(char *str)
 	return(0);
 }
 
+int	is_name(char *str)
+{
+	return (ft_strlen(str) > 0 && str[0] != '#' && str[0] != 'L');
+}
+
 int is_room(char *str)
 {
 	char	**s;
@@ -43,7 +48,7 @@ int is_room(char *str)
 		return (ret);
 	while(s[i])
 		i++;
-	if (i == 3 && ft_isint(s[1]) && ft_isint(s[2]))
+	if (i == 3 && is_name(s[0]) && ft_isint(s[1]) && ft_isint(s[2]))
 			ret = 1;
 	i = -1;
 	while (s[++i])
@@ -66,7 +71,7 @@ int	is_link(char *str)
 		return (ret);
 	while(s[i])
 		i++;
-	if (i == 2)
+	if (i == 2 && is_name(s[0]) && is_name(s[1]))
 		ret = 1;
 	i = -1;
 	while (s[++i])
