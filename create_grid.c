@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 20:53:24 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/19 00:08:34 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/11/19 00:11:58 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	fill_matrix(t_rooms *rooms, t_links *links, int **matrix)
 {
 	while (links)
 	{
-		matrix[find_room(rooms, links->start, 'x')][find_room(rooms, links->link, 'y')] = 1;
+		matrix[find_room(rooms, links->start, 'x') - 1][find_room(rooms, links->link, 'y') - 1] = 1;
 		links = links->next;
 	}
 }
@@ -69,7 +69,7 @@ int		**id_matrix(t_lem_in **stat)
 	(*stat)->end = find_end((*stat)->rooms);
 	matrix = (int **)malloc(sizeof(int *) * i);
 	index = 0;
-	while (index <= i)
+	while (index < i)
 	{
 		matrix[index] = (int *)malloc(sizeof(int *) * j);
 		ft_bzero(matrix[index], j);
@@ -77,10 +77,10 @@ int		**id_matrix(t_lem_in **stat)
 	}
 	fill_matrix((*stat)->rooms, (*stat)->links, matrix);
 	int k = 0;
-	while (k <= i)
+	while (k < i)
 	{
 		index = 0;
-		while (index <= j)
+		while (index < j)
 		{
 			printf("[%d] ", matrix[k][index]);
 			index++;
@@ -88,5 +88,6 @@ int		**id_matrix(t_lem_in **stat)
 		printf("\n");
 		k++;
 	}
+	printf("\n");
 	return (matrix);
 }
