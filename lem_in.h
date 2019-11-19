@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 19:22:05 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/19 00:16:47 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/11/19 22:15:18 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct	s_rooms
 	int			ants;
 	int			start;
 	int			end;
+	int			bfs;
 	struct s_rooms		*next;
 }				t_rooms;
 
@@ -31,6 +32,8 @@ typedef struct	s_links
 {
 	char				*start;
 	char				*link;
+	t_rooms				*s;
+	t_rooms				*f;
 	struct s_links		*next;
 }				t_links;
 
@@ -45,6 +48,13 @@ typedef struct	s_lem_in
 	int			**matrix;
 }				t_lem_in;
 
+typedef struct 	s_queue
+{
+	t_rooms		*room;
+	struct	s_queue *next;
+}				t_queue;
+
+
 void	write_d(t_lem_in *stat);
 t_rooms *room_init(char **str, int com);
 t_links	*link_init(char **str);
@@ -57,6 +67,11 @@ int		is_name(char *str);
 void	error(char *str);
 void	linkadd(t_links **links, t_links *new);
 void	roomadd(t_rooms **room, t_rooms *new);
-int		**id_matrix(t_lem_in **stat);
+void	id_matrix(t_lem_in **stat);
+t_rooms	*find_start(t_rooms *rooms);
+t_rooms *find_end(t_rooms *rooms);
+t_rooms *find_room(t_rooms *rooms, char *name);
+int		validate(t_lem_in *stat);
+void	free_stat(t_lem_in *stat);
 
 #endif

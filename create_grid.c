@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 20:53:24 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/19 00:11:58 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/11/19 22:17:13 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,54 +40,42 @@ int get_max(t_rooms *rooms, char pos)
 	return (pos == 'x' ? max->x : max->y);
 }
 
-int find_room(t_rooms *rooms, char *name, char pos)
+t_rooms *find_room(t_rooms *rooms, char *name)
 {
 	while (rooms && !ft_strequ(rooms->name, name))
 		rooms = rooms->next;
-	return (pos == 'x' ? rooms->x : rooms->y);
+	return (rooms);
 }
 
-void	fill_matrix(t_rooms *rooms, t_links *links, int **matrix)
+void	fill_rooms(t_rooms *rooms, t_links *links)
 {
+	t_links *head;
+
+	head = links;
 	while (links)
 	{
-		matrix[find_room(rooms, links->start, 'x') - 1][find_room(rooms, links->link, 'y') - 1] = 1;
+		links->s = find_room(rooms, links->start);
+		links->f = find_room(rooms, links->link);
 		links = links->next;
 	}
+	links = head;
 }
 
-int		**id_matrix(t_lem_in **stat)
+void		id_matrix(t_lem_in **stat)
 {
 	int i;
 	int j;
 	int index;
-	int	**matrix;
 
-	i = get_max((*stat)->rooms, 'x');
-	j = get_max((*stat)->rooms, 'y');
-	(*stat)->start = find_start((*stat)->rooms);
-	(*stat)->end = find_end((*stat)->rooms);
-	matrix = (int **)malloc(sizeof(int *) * i);
-	index = 0;
-	while (index < i)
+	(*stat)->start = find_start((*stat)->links);
+	(*stat)->end = find_end((*stat)->links);
+	fill_rooms((*stat)->rooms, (*stat)->links);
+	while ((*stat)->links)
 	{
-		matrix[index] = (int *)malloc(sizeof(int *) * j);
-		ft_bzero(matrix[index], j);
-		index++;
+		printf("start : %s\n", (*stat)->links->start);
+		printf("link : %s\n", (*stat)->links->link);
+		printf("s : [%s]\n", (*stat)->links->s->name);
+		printf("f : {%s}\n", (*stat)->links->f->name);
+		(*stat)->links = (*stat)->links->next;
 	}
-	fill_matrix((*stat)->rooms, (*stat)->links, matrix);
-	int k = 0;
-	while (k < i)
-	{
-		index = 0;
-		while (index < j)
-		{
-			printf("[%d] ", matrix[k][index]);
-			index++;
-		}
-		printf("\n");
-		k++;
-	}
-	printf("\n");
-	return (matrix);
 }

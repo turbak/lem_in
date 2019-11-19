@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:53:49 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/18 23:49:45 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/11/19 22:15:32 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,12 @@ void	read_stat(t_lem_in *stat)
 			linkadd(&stat->links, link_init(ft_strsplit(stat->read[i], '-')));
 		i++;
 	}
-	stat->matrix = id_matrix(&stat);
+	if (!validate(stat))
+	{
+		free_stat(stat);
+		error("Invalid input");
+	}
+	id_matrix(&stat);
 	write_d(stat);
 }
 
