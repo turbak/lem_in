@@ -6,13 +6,13 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/04 13:52:28 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/18 17:04:33 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/11/20 15:41:41 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# define BUFF_SIZE 3
+# define BUFF_SIZE 7
 # define CHECKRETURN(a, b) if(a) return (b);
 # include <unistd.h>
 # include <stdlib.h>

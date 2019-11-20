@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 16:59:44 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/18 19:51:12 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/11/21 01:53:20 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int			ft_isint(char *str)
 		str++;
 	}
 	len = ft_strlen(str);
+	if (len == 1 && str[0] == 0)
+		return (1);
 	while (*str >= '0' && *str <= '9')
 	{
 		num = num * 10 + (*str - '0');

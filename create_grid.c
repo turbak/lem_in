@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 20:53:24 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/19 22:17:13 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/11/21 01:17:10 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,8 @@ void	fill_rooms(t_rooms *rooms, t_links *links)
 	links = head;
 }
 
-void		id_matrix(t_lem_in **stat)
+void		id_matrix(t_lem_in *stat)
 {
-	int i;
-	int j;
-	int index;
-
-	(*stat)->start = find_start((*stat)->links);
-	(*stat)->end = find_end((*stat)->links);
-	fill_rooms((*stat)->rooms, (*stat)->links);
-	while ((*stat)->links)
-	{
-		printf("start : %s\n", (*stat)->links->start);
-		printf("link : %s\n", (*stat)->links->link);
-		printf("s : [%s]\n", (*stat)->links->s->name);
-		printf("f : {%s}\n", (*stat)->links->f->name);
-		(*stat)->links = (*stat)->links->next;
-	}
+	stat->start = find_start(stat->rooms);
+	stat->end = find_end(stat->rooms);
 }

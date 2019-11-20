@@ -6,21 +6,17 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 00:17:50 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/19 21:58:43 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/11/20 15:09:10 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-static int	validate_links(t_links *links, t_rooms *rooms)
+static int	validate_links(t_links *links)
 {
-	t_rooms *head;
-	int 	counter;
-	
 	while (links)
 	{
-		if (!(find_room(rooms, links->start) || find_room(rooms, links->link))
-		|| ft_strequ(links->link, links->start))
+		if  (ft_strequ(links->s->name, links->f->name))
 				return (0);
 		links = links->next;
 	}
@@ -49,23 +45,5 @@ static int	validate_rooms(t_rooms *rooms)
 
 int validate(t_lem_in *stat)
 {
-	int i;
-	int j;
-
-	i = 0;
-	while (stat->read[i])
-	{
-		if (is_link(stat->read[i]))
-		{
-			j = i + 1;
-			while (stat->read[j])
-			{
-				if (is_link(stat->read[j]) && ft_strequ(stat->read[i], stat->read[j]))
-					return (0);
-				j++;
-			}
-		}
-		i++;
-	}
-	return (validate_links(stat->links, stat->rooms) && validate_rooms(stat->rooms));
+	return (validate_links(stat->links) && !validate_rooms(stat->rooms));
 }

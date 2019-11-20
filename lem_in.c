@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 19:23:46 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/18 19:48:20 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/11/20 14:58:51 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ int	main(int ac, char **av)
 	char *tmp;
 	int	fd;
 
-	//if (ac < 2)
-	//{
-	//	error("Usage: ./lem-in < map_file");
-	//	return (0);
-	//}
+	if (ac < 2)
+	{
+		error("Usage: ./lem-in < map_file");
+		return (0);
+	}
 	fd = open(av[1], O_RDONLY);
 	tmp = ft_strnew(0);
 	while (get_next_line(fd, &line) > 0)

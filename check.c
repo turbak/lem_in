@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 16:55:31 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/19 00:15:55 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/11/21 01:57:30 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int is_room(char *str)
 		return (ret);
 	while(s[i])
 		i++;
-	if (i == 3 && is_name(s[0]) && ft_isint(s[1]) && ft_isint(s[2]))
+	if (i == 3 && is_name(s[0]) && ft_isint(s[1]))
 			ret = 1;
 	i = -1;
 	while (s[++i])

@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:53:49 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/19 22:15:32 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/11/21 01:16:35 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_rooms *room_init(char **str, int com)
 	room->start = com == 1 ? 1 : 0;
 	room->x = ft_atoi(str[1]);
 	room->y = ft_atoi(str[2]);
+	room->bfs = -1;
 	while (str[++i])
 		ft_strdel(&str[i]);
 	free(str);
@@ -52,15 +53,17 @@ t_rooms *room_init(char **str, int com)
 	return (room);
 }
 
-t_links	*link_init(char **str)
+t_links	*link_init(char **str, t_rooms *rooms)
 {
 	int i;
 	t_links *link;
 	
 	i = -1;
 	link = malloc(sizeof(t_links));
-	link->start = ft_strdup(str[0]);
-	link->link = ft_strdup(str[1]);
+	if (!(link->s = find_room(rooms, str[0])))
+		error("Link read error");
+	if (!(link->f = find_room(rooms, str[1])))
+		error("Link read error");
 	link->next = NULL;
 	while (str[++i])
 		ft_strdel(&str[i]);
@@ -87,16 +90,16 @@ void	read_stat(t_lem_in *stat)
 		if (is_room(stat->read[i]))
 			roomadd(&stat->rooms, room_init(ft_strsplit(stat->read[i], ' '), com));
 		else if (is_link(stat->read[i]))
-			linkadd(&stat->links, link_init(ft_strsplit(stat->read[i], '-')));
+			linkadd(&stat->links, link_init(ft_strsplit(stat->read[i], '-'), stat->rooms));
 		i++;
 	}
-	if (!validate(stat))
-	{
-		free_stat(stat);
-		error("Invalid input");
-	}
-	id_matrix(&stat);
-	write_d(stat);
+	//if (!validate(stat))
+	//{
+	//	free_stat(stat);
+	//	error("Invalid input");
+	//}
+	id_matrix(stat);
+	bfs(stat);
 }
 
 void	roomadd(t_rooms **room, t_rooms *new)
