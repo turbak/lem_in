@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:53:49 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/21 01:16:35 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/11/21 23:52:47 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ t_rooms *room_init(char **str, int com)
 	room->name = ft_strdup(str[0]);
 	room->end = com == 2 ? 1 : 0;
 	room->start = com == 1 ? 1 : 0;
+	room->input = 0;
+	room->output = 0;
 	room->x = ft_atoi(str[1]);
 	room->y = ft_atoi(str[2]);
 	room->bfs = -1;

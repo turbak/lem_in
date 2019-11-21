@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 19:22:05 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/21 01:05:37 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/11/21 23:52:18 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ typedef struct	s_rooms
 	int			start;
 	int			end;
 	int			bfs;
+	int			input;
+	int			output;
 	struct s_rooms		*next;
 }				t_rooms;
 
