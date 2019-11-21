@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 17:03:30 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/21 05:25:28 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/11/21 23:09:03 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,42 +66,85 @@ t_links	*find_link(t_links **link, char *name)
 	return (*link);
 }
 
-void	roomdel(t_rooms **room, t_rooms *next)
+void	linkdelm(t_links **links, t_links *next)
 {
-		ft_strdel(&(*room)->name);
-		free(*room);
-		*room = next;
+	(*links)->next = (*links)->next->next;
+	free(next);
+	next = NULL;
+}
+t_links	 *linkdels(t_links **links, t_links *start)
+{
+	(*links) = (*links)->next;
+	free(start);
+	start = NULL;
+	return (*links);
 }
 
-void 	linkdel(t_links **links, t_links *next)
+void	roomdelm(t_rooms **rooms, t_rooms *next)
 {
-	free(*links);
-	*links = next;
+	(*rooms)->next = (*rooms)->next->next;
+	ft_strdel(&next->name);
+	free(next);
+	next = NULL;
 }
-void	remove_useless_rooms_and_links(t_links **link, t_rooms **room)
+
+t_rooms	*roomdels(t_rooms **rooms, t_rooms *start)
+{
+	(*rooms) = (*rooms)->next;
+	ft_strdel(&start->name);
+	free(start);
+	start = NULL;
+	return (*rooms);
+}
+
+t_rooms *remove_rooms(t_rooms **rooms)
+{
+	t_rooms *rooms_head;
+
+	rooms_head = *rooms;
+	while ((*rooms)->next)
+	{
+		if ((*rooms)->bfs == -1)
+		{
+			if (rooms_head == *rooms)
+				rooms_head = roomdels(rooms, *rooms);
+			else
+				*rooms = roomdels(rooms, *rooms);
+		}
+		else if ((*rooms)->next->bfs == -1)
+			roomdelm(rooms, (*rooms)->next);
+		else
+			*rooms = (*rooms)->next;
+	}
+	return (rooms_head);
+}
+
+t_links *remove_links(t_links **links)
 {
 	t_links *links_head;
-	t_rooms *rooms_head;
-	
 
-	links_head = *link;
-	rooms_head = *room;
-	while (*link)
+	links_head = *links;
+	while ((*links)->next)
 	{
-		if ((*link)->s->bfs == -1 || (*link)->f->bfs == -1)
-			linkdel(link, (*link)->next);
+		if ((*links)->s->bfs == -1 || (*links)->f->bfs == -1)
+		{
+			if (links_head == *links)
+				links_head = linkdels(links, *links);
+			else
+				*links = linkdels(links, *links);
+		}
+		else if (((*links)->next->s->bfs == -1 || (*links)->next->f->bfs == -1))
+			linkdelm(links, (*links)->next);
 		else
-			(*link) = (*link)->next;
+			*links = (*links)->next;
 	}
-	while ((*room))
-	{
-		if ((*room)->bfs == -1)
-			roomdel(room, (*room)->next);
-		else
-			(*room) = (*room)->next;
-	}
-	*link = links_head;
-	*room = rooms_head;
+	return (links_head);
+}
+
+void	remove_useless_rooms_and_links(t_lem_in *stat)
+{
+	stat->links = remove_links(&stat->links);
+	stat->rooms = remove_rooms(&stat->rooms);
 }
 
 void	bfs(t_lem_in *stat)
@@ -131,7 +174,7 @@ void	bfs(t_lem_in *stat)
 		find = find_head;
 		bfs++;
 	}
-	remove_useless_rooms_and_links(&stat->links, &stat->rooms);
+	remove_useless_rooms_and_links(stat);
 	while (stat->rooms)
 	{
 		printf("%s : [%d]\n", stat->rooms->name, stat->rooms->bfs);
