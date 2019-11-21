@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 17:03:30 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/21 01:57:55 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/11/21 03:19:42 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,12 @@ void dequeue(t_queue **queue)
 
 t_links	*find_link(t_links **link, char *name)
 {
-	while (*link && !ft_strequ((*link)->s->name, name))
+	while (*link)
+	{
+		if (ft_strequ((*link)->s->name, name) && (*link)->f->bfs == -1)
+			return (*link);
 		(*link) = (*link)->next;
+	}
 	return (*link);
 }
 
@@ -81,17 +85,19 @@ void	bfs(t_lem_in *stat)
 		while ((find = find_link(&find, stat->start->name)))
 		{
 			queueadd(&queue, init_queue(find->f));
-			if (queue->room->bfs == -1)
-				queue->room->bfs = bfs;
+			queue->room->bfs = bfs;
 			find = find->next;
 		}
-		stat->start = queue->room;
+		if (queue)
+			stat->start = queue->room;
 		find = find_head;
 		bfs++;
 	}
 	while (stat->rooms)
 	{
-		printf("%s : [%d]\n", stat->rooms->name, stat->rooms->bfs);	
+		printf("%s : [%d]\n", stat->rooms->name, stat->rooms->bfs);
+		if (stat->rooms->end && stat->rooms->bfs == -1)
+			printf("end is unreachable\n");
 		stat->rooms = stat->rooms->next;
 	}
 }
