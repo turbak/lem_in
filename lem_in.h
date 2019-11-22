@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 19:22:05 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/21 23:52:18 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/11/22 20:12:41 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ t_rooms *find_room(t_rooms *rooms, char *name);
 int		validate(t_lem_in *stat);
 void	free_stat(t_lem_in *stat);
 void	bfs(t_lem_in *stat);
+void	ft_swap(void **ptr1, void **ptr2);
 
 #endif

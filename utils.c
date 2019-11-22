@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_swapfree.c                                      :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/17 18:23:17 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/22 19:47:57 by cauranus         ###   ########.fr       */
+/*   Created: 2019/11/22 19:10:28 by cauranus          #+#    #+#             */
+/*   Updated: 2019/11/22 20:12:30 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "lem_in.h"
 
-void	ft_swapfree(void **ptr, void *ptr2)
+void	ft_swap(void **ptr1, void **ptr2)
 {
-	void	*temp;
-
-	temp = ptr2;
-	free(*ptr);
-	*ptr = temp;
+	void *swap;
+	
+	swap = *ptr2;
+	*ptr2 = *ptr1;
+	*ptr1 = swap;
 }
