@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 19:22:05 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/22 20:12:41 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/11/23 19:06:18 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,17 @@ typedef struct	s_lem_in
 	int			**matrix;
 }				t_lem_in;
 
+typedef struct	s_path
+{
+	t_rooms		*room;
+	t_rooms		*next;
+}				t_path;
+
 typedef struct 	s_queue
 {
 	t_rooms		*room;
 	struct	s_queue *next;
 }				t_queue;
-
 
 void	write_d(t_lem_in *stat);
 t_rooms *room_init(char **str, int com);
@@ -77,5 +82,12 @@ int		validate(t_lem_in *stat);
 void	free_stat(t_lem_in *stat);
 void	bfs(t_lem_in *stat);
 void	ft_swap(void **ptr1, void **ptr2);
+t_rooms	*roomdels(t_rooms **rooms, t_rooms *start);
+t_links	 *linkdels(t_links **links, t_links *start);
+void	linkdelm(t_links **links, t_links *next);
+void	roomdelm(t_rooms **rooms, t_rooms *next);
+t_rooms	*dead_rooms(t_rooms **rooms);
+t_links	*dead_links(t_links **links);
+void 	dequeue(t_queue **queue, t_queue *start);
 
 #endif

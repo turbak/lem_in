@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 17:03:30 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/22 23:26:39 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/11/23 18:01:23 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_queue 	*init_queue(t_rooms *room)
 	return (queue);
 }
 
-int	queueadd(t_queue **queue, t_queue *new)
+int	enqueue(t_queue **queue, t_queue *new)
 {
 	t_queue *buf;
 
@@ -42,14 +42,6 @@ int	queueadd(t_queue **queue, t_queue *new)
 	return (1);
 }
 
-void dequeue(t_queue **queue, t_queue *start)
-{
-	(*queue) = (*queue)->next;
-	free(start);
-	start = NULL;
-	
-}
-
 t_links	*find_link(t_links **link, char *name, int bfs)
 {
 	while (*link)
@@ -65,37 +57,6 @@ t_links	*find_link(t_links **link, char *name, int bfs)
 		(*link) = (*link)->next;
 	}
 	return (*link);
-}
-
-void	linkdelm(t_links **links, t_links *next)
-{
-	(*links)->next = (*links)->next->next;
-	free(next);
-	next = NULL;
-}
-t_links	 *linkdels(t_links **links, t_links *start)
-{
-	(*links) = (*links)->next;
-	free(start);
-	start = NULL;
-	return (*links);
-}
-
-void	roomdelm(t_rooms **rooms, t_rooms *next)
-{
-	(*rooms)->next = (*rooms)->next->next;
-	ft_strdel(&next->name);
-	free(next);
-	next = NULL;
-}
-
-t_rooms	*roomdels(t_rooms **rooms, t_rooms *start)
-{
-	(*rooms) = (*rooms)->next;
-	ft_strdel(&start->name);
-	free(start);
-	start = NULL;
-	return (*rooms);
 }
 
 t_rooms *remove_rooms(t_rooms **rooms)
@@ -161,6 +122,8 @@ void	remove_useless_rooms_and_links(t_lem_in *stat)
 			l_head->f->input++;
 			l_head = l_head->next;
 	}
+	stat->rooms = dead_rooms(&stat->rooms);
+	stat->links = dead_links(&stat->links);
 }
 
 void	bfs(t_lem_in *stat)
@@ -181,7 +144,7 @@ void	bfs(t_lem_in *stat)
 		dequeue(&queue, queue);
 		while ((find = find_link(&find, stat->start->name, bfs)))
 		{
-			queueadd(&queue, init_queue(ft_strequ(stat->start->name, find->f->name) ? find->s :  find->f));
+			enqueue(&queue, init_queue(ft_strequ(stat->start->name, find->f->name) ? find->s :  find->f));
 			find = find->next;
 		}
 		if (queue)
@@ -208,6 +171,7 @@ void	bfs(t_lem_in *stat)
 			printf("start ");
 		if (stat->rooms->end)
 			printf("end ");
+		//printf("%s\n", stat->rooms->name);
 		printf("name{%s}, input [%d], output [%d], bfs [%d]\n",  stat->rooms->name, stat->rooms->input, stat->rooms->output, stat->rooms->bfs);
 		stat->rooms = stat->rooms->next;
 	}
