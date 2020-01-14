@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/04 13:52:28 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/20 15:41:41 by cauranus         ###   ########.fr       */
+/*   Updated: 2020/01/14 13:55:59 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int					get_next_line(const int fd, char **line);
 int					ft_strchrn(const char *s, int c);
 void				ft_strset(char *b, char sub, char fill);
 int					ft_sqrt(int nb);
-int					ft_isint(char *str);
+int					ft_isint(const char *str);
 
 typedef struct		s_list
 {

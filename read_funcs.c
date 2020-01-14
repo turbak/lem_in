@@ -6,12 +6,14 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:53:49 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/22 20:39:03 by cauranus         ###   ########.fr       */
+/*   Updated: 2020/01/14 14:02:15 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-
+/*
+* дебажный вывод
+*/
 void	write_d(t_lem_in *stat)
 {
 	printf("%d\n", stat->ants);
@@ -23,21 +25,17 @@ void	write_d(t_lem_in *stat)
 		stat->rooms = stat->rooms->next;
 	}
 	ft_putchar('\n');
-	while (stat->links)
-	{
-		printf("%s-", stat->links->start);
-		printf("%s\n", stat->links->link);
-		stat->links = stat->links->next;
-	}
 }
-
+/*
+* создание комнаты
+*/
 t_rooms *room_init(char **str, int com)
 {
 	int		i;
 	t_rooms *room;
 	
 	i = -1;
-	room = malloc(sizeof(t_rooms));
+	room = (t_rooms *)malloc(sizeof(t_rooms));
 	room->next = NULL;
 	room->ants = 0;
 	room->name = ft_strdup(str[0]);
@@ -54,14 +52,16 @@ t_rooms *room_init(char **str, int com)
 	str = NULL;
 	return (room);
 }
-
+/*
+* создание линка
+*/
 t_links	*link_init(char **str, t_rooms *rooms)
 {
 	int i;
 	t_links *link;
 	
 	i = -1;
-	link = malloc(sizeof(t_links));
+	link = (t_links*)malloc(sizeof(t_links));
 	if (!(link->s = find_room(rooms, str[0])))
 		error("Link read error");
 	if (!(link->f = find_room(rooms, str[1])))
@@ -73,7 +73,9 @@ t_links	*link_init(char **str, t_rooms *rooms)
 	str = NULL;
 	return (link);
 }
-
+/*
+* парсинг всего(работает медленно и с ошибками, надо допилить)
+*/
 void	read_stat(t_lem_in *stat)
 {
 	int i;

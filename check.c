@@ -6,11 +6,15 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 16:55:31 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/21 01:57:30 by cauranus         ###   ########.fr       */
+/*   Updated: 2020/01/14 13:59:59 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+/*
+* файл с функциями для проверки валидности(надо дописать ft_is_int.c в либе)
+*/
 
 int	is_comment(char *str)
 {
@@ -48,7 +52,7 @@ int is_room(char *str)
 		return (ret);
 	while(s[i])
 		i++;
-	if (i == 3 && is_name(s[0]) && ft_isint(s[1]))
+	if (i == 3 && is_name(s[0])/* && ft_isint(s[1])*/)
 			ret = 1;
 	i = -1;
 	while (s[++i])

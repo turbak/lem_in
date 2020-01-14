@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isint.c                                         :+:      :+:    :+:   */
+/*   ft_lstrev.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/18 16:59:44 by cauranus          #+#    #+#             */
-/*   Updated: 2020/01/14 13:55:59 by cauranus         ###   ########.fr       */
+/*   Created: 2019/11/25 01:05:11 by cauranus          #+#    #+#             */
+/*   Updated: 2019/11/25 01:12:39 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_isint(const char *s)
+t_list *ft_lstrev(t_list *lst)
 {
-	int i = 0;
-	int sum = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] < '0' || s[i] >'9')
-			return (0);
-		sum = (sum * 10) + (s[i] - '0');
-		if (sum < 0)
-			return (0);
-		i++;
-	}
-	return (1);
+	t_list *list;
+	t_list *cur;
+	t_list *next;
+
+	cur = lst;
+	list = NULL;
+    while (cur)
+    {
+        next = cur->next;
+        cur->next = list;
+        list = cur;
+        cur = next;
+    }
+      
+    lst = list;
 }

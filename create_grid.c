@@ -6,11 +6,15 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 20:53:24 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/21 01:17:10 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/12/03 17:18:35 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+/*
+* файл с легаси от матрицы смежности, тебе не понадобится
+*/
 
 t_rooms	*find_start(t_rooms *rooms)
 {
@@ -45,20 +49,6 @@ t_rooms *find_room(t_rooms *rooms, char *name)
 	while (rooms && !ft_strequ(rooms->name, name))
 		rooms = rooms->next;
 	return (rooms);
-}
-
-void	fill_rooms(t_rooms *rooms, t_links *links)
-{
-	t_links *head;
-
-	head = links;
-	while (links)
-	{
-		links->s = find_room(rooms, links->start);
-		links->f = find_room(rooms, links->link);
-		links = links->next;
-	}
-	links = head;
 }
 
 void		id_matrix(t_lem_in *stat)

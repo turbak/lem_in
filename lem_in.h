@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -6,7 +7,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 19:22:05 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/23 19:06:18 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/12/17 16:18:34 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +33,6 @@ typedef struct	s_rooms
 
 typedef struct	s_links
 {
-	char				*start;
-	char				*link;
 	t_rooms				*s;
 	t_rooms				*f;
 	struct s_links		*next;
@@ -47,14 +46,36 @@ typedef struct	s_lem_in
 	t_links		*links;
 	t_rooms		*end;
 	t_rooms		*start;
-	int			**matrix;
+	int 		bfs;
 }				t_lem_in;
+
+typedef struct s_outpath
+{
+	t_links		*link;
+	int         length;
+	struct s_outpath *next;
+}               t_outpath;
 
 typedef struct	s_path
 {
-	t_rooms		*room;
-	t_rooms		*next;
+	t_links		*link;
+	struct s_path		*next;
 }				t_path;
+
+typedef struct s_turn
+{
+	t_rooms *room;
+	int     ant_num;
+	struct s_turn *next;
+}               t_turn;
+
+typedef struct s_roompath
+{
+	t_rooms *room;
+	int length;
+	t_turn  *turns;
+	struct s_roompath *next;
+}   t_roompath;
 
 typedef struct 	s_queue
 {
@@ -89,5 +110,18 @@ void	roomdelm(t_rooms **rooms, t_rooms *next);
 t_rooms	*dead_rooms(t_rooms **rooms);
 t_links	*dead_links(t_links **links);
 void 	dequeue(t_queue **queue, t_queue *start);
+void bubbleSort(t_rooms *start);
+void	build_path(t_lem_in *stat);
+t_links	*find_link(t_links **link, char *name, int bfs);
+int f_checkbestroomever(t_links *current, t_lem_in *stat);
+void f_delete_all_the_fucking_connections_between_rooms(t_rooms *rooms, t_links *links, t_lem_in *stat);
+void		delete_forks(t_lem_in *stat, t_rooms *rooms);
+t_links *find_previous_link(t_links *links, t_rooms *rooms, t_lem_in *stat);
+void    remove_output_forks(t_lem_in *stat);
+t_links *find_previous_link(t_links *links, t_rooms *rooms, t_lem_in *stat);
+t_roompath *form_and_sort_paths(t_lem_in *stat);
+t_links     *find_next_link(t_links *link, t_rooms *room);
+void    send_ants(t_roompath *paths, t_lem_in *stat);
+void free_turns(t_turn **turn);
 
 #endif

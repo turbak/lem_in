@@ -6,25 +6,29 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 19:23:46 by cauranus          #+#    #+#             */
-/*   Updated: 2019/11/20 14:58:51 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/12/03 17:21:40 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-
+/*
+* вывод ошибок
+*/
 void	error(char *str)
 {
 	ft_putendl_fd(str, 2);
 	exit(-1);
 }
-
+/*
+* создание структуры стат
+*/
 t_lem_in	*init(char *tmp)
 {
 	t_lem_in	*stat;
 	int			i;
 
 	i = 0;
-	stat = malloc(sizeof(t_lem_in));
+	stat = (t_lem_in *)malloc(sizeof(t_lem_in));
 	stat->read = ft_strsplit(tmp, '\n');
 	ft_strdel(&tmp);
 	read_stat(stat);
