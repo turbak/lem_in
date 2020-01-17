@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   form_paths.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/17 17:07:42 by cauranus          #+#    #+#             */
+/*   Updated: 2020/01/17 17:52:48 by cauranus         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
-void roomaddend(t_rooms **rooms, t_rooms *new)
+void		roomaddend(t_rooms **rooms, t_rooms *new)
 {
 	t_rooms *rooms_head;
 
@@ -8,12 +20,12 @@ void roomaddend(t_rooms **rooms, t_rooms *new)
 	if (!(*rooms))
 	{
 		*rooms = new;
-		return;
+		return ;
 	}
 	if (!(*rooms)->next)
 	{
 		(*rooms)->next = new;
-		return;
+		return ;
 	}
 	while ((*rooms)->next)
 		*rooms = (*rooms)->next;
@@ -21,25 +33,7 @@ void roomaddend(t_rooms **rooms, t_rooms *new)
 	(*rooms) = rooms_head;
 }
 
-t_rooms *roomcpy(t_rooms *room)
-{
-	t_rooms *new;
-
-	new = (t_rooms *)malloc(sizeof(t_rooms));
-	new->next = NULL;
-	new->start = room->start;
-	new->end = room->end;
-	new->output = room->output;
-	new->input = room->input;
-	new->ants = room->ants;
-	new->bfs = room->bfs;
-	new->name = room->name;
-	new->x = room->x;
-	new->y = room->y;
-	return (new);
-}
-
-t_rooms *find_next_path(t_links *link, t_rooms *current, t_rooms **list)
+t_rooms		*find_next_path(t_links *link, t_rooms *current, t_rooms **list)
 {
 	while (link && link->s != current)
 		link = link->next;
@@ -55,11 +49,11 @@ t_rooms *find_next_path(t_links *link, t_rooms *current, t_rooms **list)
 	}
 }
 
-t_roompath *form_path(t_links *link, t_lem_in *stat)
+t_roompath	*form_path(t_links *link, t_lem_in *stat)
 {
-	t_rooms *current;
-	t_links *links_head;
-	t_roompath *roompath;
+	t_rooms		*current;
+	t_links		*links_head;
+	t_roompath	*roompath;
 
 	roompath = (t_roompath*)malloc(sizeof(t_roompath));
 	roompath->next = NULL;
@@ -76,12 +70,10 @@ t_roompath *form_path(t_links *link, t_lem_in *stat)
 	return (roompath);
 }
 
-t_roompath *roompathadd(t_roompath **roompath, t_roompath *new)
+t_roompath	*roompathadd(t_roompath **roompath, t_roompath *new)
 {
 	t_roompath *head;
 
-	if (new->length == 18)
-		new = new;
 	head = *roompath;
 	if (!*roompath)
 	{
@@ -93,13 +85,11 @@ t_roompath *roompathadd(t_roompath **roompath, t_roompath *new)
 		if ((*roompath)->length < new->length)
 		{
 			(*roompath)->next = new;
-			return (*roompath);
+			new = *roompath;
 		}
 		else
-		{
 			new->next = *roompath;
-			return (new);
-		}
+		return (new);
 	}
 	while ((*roompath)->next && (*roompath)->next->length < new->length)
 		*roompath = (*roompath)->next;
@@ -108,11 +98,12 @@ t_roompath *roompathadd(t_roompath **roompath, t_roompath *new)
 	return (head);
 }
 
-t_roompath *form_and_sort_paths(t_lem_in *stat)
+void		form_and_sort_paths(t_lem_in *stat)
 {
-	t_rooms *begin;
-	t_links *buf;
-	t_roompath *paths;
+	t_rooms		*begin;
+	t_links		*buf;
+	t_roompath	*paths;
+	int			i;
 
 	begin = find_start(stat->rooms);
 	paths = NULL;
@@ -122,13 +113,9 @@ t_roompath *form_and_sort_paths(t_lem_in *stat)
 		paths = roompathadd(&paths, form_path(buf, stat));
 		buf = buf->next;
 	}
-	int i = 0;
+	i = 0;
 	while (stat->read[i])
-	{
-		printf("%s\n", stat->read[i]);
-		i++;
-	}
-	printf("\n");
+		ft_printf("%s\n", stat->read[i++]);
+	ft_printf("\n");
 	send_ants(paths, stat);
-	return (paths);
 }

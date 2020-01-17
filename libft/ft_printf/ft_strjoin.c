@@ -1,32 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isint.c                                         :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/18 16:59:44 by cauranus          #+#    #+#             */
-/*   Updated: 2020/01/17 16:13:55 by cauranus         ###   ########.fr       */
+/*   Created: 2019/09/07 13:45:01 by cauranus          #+#    #+#             */
+/*   Updated: 2020/01/17 18:13:35 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-int	ft_isint(const char *s)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int i;
-	int sum;
+	size_t	i;
+	size_t	size1;
+	size_t	size2;
+	char	*dst;
 
+	if (!s1 || !s2)
+		return (NULL);
+	size1 = ft_strlen_p(s1);
+	size2 = ft_strlen_p(s2) + 1;
+	if (!(dst = (char *)malloc(sizeof(char) * (size1 + size2))))
+		return (NULL);
 	i = 0;
-	sum = 0;
-	while (s[i] != '\0')
+	while (s1[i])
 	{
-		if (s[i] < '0' || s[i] > '9')
-			return (0);
-		sum = (sum * 10) + (s[i] - '0');
-		if (sum <= 0 && i != 0)
-			return (0);
+		dst[i] = s1[i];
 		i++;
 	}
-	return (1);
+	i = 0;
+	while (s2[i])
+	{
+		dst[i + size1] = s2[i];
+		i++;
+	}
+	dst[i + size1] = '\0';
+	return (dst);
 }

@@ -1,117 +1,75 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   paths.c                                            :+:      :+:    :+:   */
+/*   input_forks.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 19:06:35 by cauranus          #+#    #+#             */
-/*   Updated: 2020/01/14 14:04:38 by cauranus         ###   ########.fr       */
+/*   Updated: 2020/01/17 16:49:56 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-/*
-* удачи с созданием путей
-*/
-void	build_path(t_lem_in *stat)
+
+void		build_path(t_lem_in *stat)
 {
-	t_rooms *rooms;
-	int bfs;
+	t_rooms	*rooms;
+	int		bfs;
 
 	bfs = 1;
 	while (bfs <= stat->bfs)
-    {
+	{
 		rooms = stat->rooms;
 		while (rooms)
 		{
 			if (rooms->bfs == bfs && rooms->input > 1)
-			{
 				delete_forks(stat, rooms);
-			}
 			rooms = rooms->next;
 		}
 		bfs++;
-    }
-	bfs = 1;
+	}
 }
 
-void		delete_forks(t_lem_in *stat, t_rooms *rooms)
+t_links		*find_prev_link(t_links *links, t_rooms *rooms)
 {
-	t_links *links;
-	t_path *buffer; //лист с комнатами, ссылающимися на текущую
-	t_path *head;
-	t_path *best;
-
-	links = stat->links;
-	buffer = malloc(sizeof(t_path*));
-	buffer->next = malloc(sizeof(t_path*));
-	head = buffer->next;
-	while (links)
-	{
-		if (links->f == rooms)
-		{
-			buffer = buffer->next;
-			buffer->next = malloc(sizeof(t_path*));
-			buffer->link = links;
-		}
-		links = links->next;
-	}
-	free(buffer->next);
-	buffer->next = NULL;
-	buffer = head;
-	best = buffer;
-	while (buffer)
-	{
-		if (f_checkbestroomever(buffer->link, stat))
-		{
-			best = buffer;
-			break;
-		}
-		buffer = buffer->next;
-	}
-	f_delete_all_the_fucking_connections_between_rooms(rooms, best->link, stat);
-}
-
-int f_checkbestroomever(t_links *current, t_lem_in *stat)
-{
-	t_links	*to_start;
-
-
-	to_start = current;
-	while (to_start->s->start != 1)
-	{
-		if (to_start->s->output > 1)
-			return 0;
-		else
-			to_start = find_previous_link(stat->links, to_start->s, stat);
-	}
-	return 1;
-}
-
-t_links *find_previous_link(t_links *links, t_rooms *rooms, t_lem_in *stat)
-{
-	while (links && links->f != rooms && !links->f->start)
+	while (links && links->f != rooms)
 		links = links->next;
 	return (links);
 }
 
-void f_delete_all_the_fucking_connections_between_rooms(t_rooms *rooms, t_links *best, t_lem_in *stat)
+static int	find_length(t_links *link, t_links *start)
 {
-	t_links *link;
-	t_links *links_head;
+	t_rooms *room;
 
-	link = stat->links;
-	links_head = link;
-	while (link->next)
+	room = link->f;
+	while (!room->end)
 	{
-		if (link->f == rooms && link != best && links_head == link)
-			links_head = linkdels(&link, link);
-		else if (link->next->f == rooms && link->next != best)
-			linkdelm(&link, link->next);
-		else
-			link = link->next;
+		if (room->output > 1)
+			return (1);
+		link = start;
+		link = find_next_link(link, room);
+		room = link->f;
 	}
-	rooms->input = 1;
-	stat->links = links_head;
+	return (0);
+}
+
+void		delete_forks(t_lem_in *stat, t_rooms *rooms)
+{
+	t_outpath	*path;
+	t_links		*buf;
+	int			minlen;
+
+	buf = stat->links;
+	path = NULL;
+	minlen = __INT_MAX__;
+	while ((buf = find_prev_link(buf, rooms)))
+	{
+		add_path(&path, path_init(find_length(buf, stat->links), buf));
+		buf = buf->next;
+		if (minlen == path->length)
+			path->length++;
+		minlen = path->length < minlen ? path->length : minlen;
+	}
+	free_out_forks(path, &stat->links, minlen);
 }

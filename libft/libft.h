@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/04 13:52:28 by cauranus          #+#    #+#             */
-/*   Updated: 2020/01/14 13:55:59 by cauranus         ###   ########.fr       */
+/*   Updated: 2020/01/17 17:47:24 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <fcntl.h>
+# include "ft_printf/ft_printf.h"
 
 int					ft_isalnum(int c);
 int					ft_isalpha(int c);

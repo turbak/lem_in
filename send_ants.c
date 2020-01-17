@@ -1,22 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   send_ants.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/17 16:21:28 by cauranus          #+#    #+#             */
+/*   Updated: 2020/01/17 17:53:03 by cauranus         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
-void turn_move(t_turn *turn, t_rooms *room)
-{
-	turn->room = room;
-}
-
-void turnadd(t_turn **turns, t_rooms *room, int ant_num)
+void	turnadd(t_turn **turns, t_rooms *room, int ant_num)
 {
 	t_turn *new;
+	t_turn *turns_head;
 
+	turns_head = *turns;
 	new = (t_turn *)malloc(sizeof(t_turn));
 	new->room = room;
 	new->ant_num = ant_num;
-	new->next = *turns;
-	*turns = new;
+	new->next = NULL;
+	if (!(*turns))
+	{
+		*turns = new;
+		return ;
+	}
+	while ((*turns)->next)
+		*turns = (*turns)->next;
+	(*turns)->next = new;
+	(*turns) = turns_head;
 }
 
-void print_turns(t_roompath *path)
+void	print_turns(t_roompath *path)
 {
 	t_turn *turn_head;
 
@@ -27,7 +44,8 @@ void print_turns(t_roompath *path)
 		{
 			path->turns->room = path->turns->room->next;
 			if (path->turns->room)
-				printf("L%d-%s ", path->turns->ant_num, path->turns->room->name);
+				ft_printf("L%d-%s%s", path->turns->ant_num,
+				path->turns->room->name, path->turns->next ? " " : "");
 			path->turns = path->turns->next;
 		}
 		free_turns(&turn_head);
@@ -36,7 +54,7 @@ void print_turns(t_roompath *path)
 	}
 }
 
-int count_legths_diffs(t_roompath *paths, t_roompath *current, int ants)
+int		count_legths_diffs(t_roompath *paths, t_roompath *current, int ants)
 {
 	int counter;
 
@@ -51,10 +69,10 @@ int count_legths_diffs(t_roompath *paths, t_roompath *current, int ants)
 	return (0);
 }
 
-void    send_ants(t_roompath *paths, t_lem_in *stat)
+void	send_ants(t_roompath *paths, t_lem_in *stat)
 {
-	int        	current_ant;
-	t_roompath  *paths_head;
+	int			current_ant;
+	t_roompath	*paths_head;
 
 	paths_head = paths;
 	current_ant = 0;
@@ -71,6 +89,8 @@ void    send_ants(t_roompath *paths, t_lem_in *stat)
 		}
 		paths = paths_head;
 		print_turns(paths);
-		printf("\n");
+		ft_printf("\n");
 	}
+	free_paths(paths);
+	free_stat(stat);
 }

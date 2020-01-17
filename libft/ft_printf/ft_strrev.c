@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstrev.c                                        :+:      :+:    :+:   */
+/*   ft_strrev.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/25 01:05:11 by cauranus          #+#    #+#             */
-/*   Updated: 2020/01/17 16:15:58 by cauranus         ###   ########.fr       */
+/*   Created: 2019/09/09 22:07:42 by cauranus          #+#    #+#             */
+/*   Updated: 2020/01/17 18:13:52 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-t_list	*ft_lstrev(t_list *lst)
+char	*ft_strrev_p(char *s)
 {
-	t_list *list;
-	t_list *cur;
-	t_list *next;
+	size_t	j;
+	size_t	i;
+	char	rev;
 
-	cur = lst;
-	list = NULL;
-	while (cur)
+	i = ft_strlen_p(s);
+	j = 0;
+	--i;
+	while (i > j)
 	{
-		next = cur->next;
-		cur->next = list;
-		list = cur;
-		cur = next;
+		rev = s[j];
+		s[j] = s[i];
+		s[i] = rev;
+		j++;
+		i--;
 	}
-	lst = list;
+	return (s);
 }

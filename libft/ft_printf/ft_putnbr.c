@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstrev.c                                        :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/25 01:05:11 by cauranus          #+#    #+#             */
-/*   Updated: 2020/01/17 16:15:58 by cauranus         ###   ########.fr       */
+/*   Created: 2019/09/07 15:09:34 by cauranus          #+#    #+#             */
+/*   Updated: 2019/10/13 15:28:06 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-t_list	*ft_lstrev(t_list *lst)
+void	ft_putnbr(int n)
 {
-	t_list *list;
-	t_list *cur;
-	t_list *next;
-
-	cur = lst;
-	list = NULL;
-	while (cur)
+	if (n == -2147483648)
 	{
-		next = cur->next;
-		cur->next = list;
-		list = cur;
-		cur = next;
+		ft_putchar('-');
+		ft_putchar('2');
+		ft_putnbr(147483648);
 	}
-	lst = list;
+	else if (n < 0)
+	{
+		ft_putchar('-');
+		ft_putnbr(-n);
+	}
+	else if (n >= 10)
+	{
+		ft_putnbr(n / 10);
+		ft_putnbr(n % 10);
+	}
+	else
+		ft_putchar(n + '0');
 }

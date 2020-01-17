@@ -1,4 +1,5 @@
 NAME = libft.a
+FT_PRINTF = ft_printf/libftprintf.a
 FILES = ft_atoi.c\
 		ft_isdigit.c\
 		ft_lstdelone.c\
@@ -79,7 +80,10 @@ all: $(NAME)
 
 .PHONY: clean fclean re
 
-$(NAME): $(OBJ)
+$(FT_PRINTF):
+		make -C ft_printf
+
+$(NAME): $(OBJ) $(FT_PRINTF)
 	ar rcs $(NAME) $(OBJ)
 
 %.o: %.c $(HEADER)
@@ -87,8 +91,10 @@ $(NAME): $(OBJ)
 
 clean:
 	rm -f $(OBJ)
+	make clean -C ft_printf
 
 fclean:clean
 	rm -f $(NAME)
+	make fclean -C ft_printf
 
 re: fclean all

@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstrev.c                                        :+:      :+:    :+:   */
+/*   struct_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/25 01:05:11 by cauranus          #+#    #+#             */
-/*   Updated: 2020/01/17 16:15:58 by cauranus         ###   ########.fr       */
+/*   Created: 2019/10/13 17:58:24 by cauranus          #+#    #+#             */
+/*   Updated: 2019/10/26 18:36:01 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-t_list	*ft_lstrev(t_list *lst)
+t_flags	init_print(void)
 {
-	t_list *list;
-	t_list *cur;
-	t_list *next;
+	t_flags print;
 
-	cur = lst;
-	list = NULL;
-	while (cur)
-	{
-		next = cur->next;
-		cur->next = list;
-		list = cur;
-		cur = next;
-	}
-	lst = list;
+	print.flag = '\0';
+	print.hash = '\0';
+	print.index = 0;
+	print.minus = '\0';
+	print.plus = '\0';
+	print.precision = 0;
+	print.size = '\0';
+	print.space = '\0';
+	print.type = '\0';
+	print.width = 0;
+	print.zero = 0;
+	print.dot = '\0';
+	print.error = '\0';
+	return (print);
 }

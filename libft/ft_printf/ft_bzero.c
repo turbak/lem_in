@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstrev.c                                        :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/25 01:05:11 by cauranus          #+#    #+#             */
-/*   Updated: 2020/01/17 16:15:58 by cauranus         ###   ########.fr       */
+/*   Created: 2019/09/05 18:22:00 by cauranus          #+#    #+#             */
+/*   Updated: 2019/10/13 20:34:26 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-t_list	*ft_lstrev(t_list *lst)
+void	ft_bzero(void *s, size_t n)
 {
-	t_list *list;
-	t_list *cur;
-	t_list *next;
+	size_t i;
 
-	cur = lst;
-	list = NULL;
-	while (cur)
+	i = 0;
+	while (i < n)
 	{
-		next = cur->next;
-		cur->next = list;
-		list = cur;
-		cur = next;
+		((unsigned char *)s)[i] = 0;
+		i++;
 	}
-	lst = list;
 }

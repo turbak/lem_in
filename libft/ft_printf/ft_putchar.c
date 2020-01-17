@@ -1,31 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstrev.c                                        :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/25 01:05:11 by cauranus          #+#    #+#             */
-/*   Updated: 2020/01/17 16:15:58 by cauranus         ###   ########.fr       */
+/*   Created: 2019/09/07 15:05:02 by cauranus          #+#    #+#             */
+/*   Updated: 2019/10/13 15:26:42 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-t_list	*ft_lstrev(t_list *lst)
+void	ft_putchar(char c)
 {
-	t_list *list;
-	t_list *cur;
-	t_list *next;
-
-	cur = lst;
-	list = NULL;
-	while (cur)
-	{
-		next = cur->next;
-		cur->next = list;
-		list = cur;
-		cur = next;
-	}
-	lst = list;
+	write(1, &c, 1);
 }

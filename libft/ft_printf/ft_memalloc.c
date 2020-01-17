@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstrev.c                                        :+:      :+:    :+:   */
+/*   ft_memalloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/25 01:05:11 by cauranus          #+#    #+#             */
-/*   Updated: 2020/01/17 16:15:58 by cauranus         ###   ########.fr       */
+/*   Created: 2019/09/06 16:42:21 by cauranus          #+#    #+#             */
+/*   Updated: 2019/10/13 20:34:01 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-t_list	*ft_lstrev(t_list *lst)
+void	*ft_memalloc(size_t size)
 {
-	t_list *list;
-	t_list *cur;
-	t_list *next;
+	void *mem;
 
-	cur = lst;
-	list = NULL;
-	while (cur)
-	{
-		next = cur->next;
-		cur->next = list;
-		list = cur;
-		cur = next;
-	}
-	lst = list;
+	if ((mem = malloc(size)))
+		ft_bzero(mem, size);
+	return (mem);
 }

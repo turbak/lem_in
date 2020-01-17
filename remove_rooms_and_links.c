@@ -11,10 +11,8 @@
 /* ************************************************************************** */
 
 #include "lem_in.h"
-/*
-* удаляет тупиковые ветки
-*/
-t_rooms	*dead_rooms(t_rooms **rooms)
+
+t_rooms		*dead_rooms(t_rooms **rooms)
 {
 	t_rooms *rooms_head;
 
@@ -31,31 +29,40 @@ t_rooms	*dead_rooms(t_rooms **rooms)
 	return (rooms_head);
 }
 
-t_links	*dead_links(t_links **links)
+t_links		*f_dowhilelinks(t_links **links, t_links *links_head, int *n)
 {
-	t_links	*links_head;
-	int n;
+	while ((*links)->next)
+	{
+		if ((((*links)->f->output == 0 && !(*links)->f->end) ||
+		((*links)->s->input == 0 &&
+		!(*links)->s->start)) && links_head == *links)
+		{
+			(*n)++;
+			links_head = linkdels(links, *links);
+		}
+		else if (((*links)->next->f->output == 0 && !(*links)->next->f->end) ||
+		((*links)->next->s->input == 0 && !(*links)->next->s->start))
+		{
+			(*n)++;
+			linkdelm(links, (*links)->next);
+		}
+		else
+			(*links) = (*links)->next;
+	}
+	return (links_head);
+}
 
-	do  {
-			n = 0;
-            links_head = *links;
-            while ((*links)->next)
-            {
-                if ((((*links)->f->output == 0 && !(*links)->f->end) || ((*links)->s->input == 0 && !(*links)->s->start)) && links_head == *links)
-                {
-                    n++;
-                    links_head = linkdels(links, *links);
-                }
-                else if (((*links)->next->f->output == 0 && !(*links)->next->f->end) || ((*links)->next->s->input == 0 && !(*links)->next->s->start))
-                {
-                    n++;
-                    linkdelm(links, (*links)->next);
-                }
-                else
-                    (*links) = (*links)->next;
-            }
-            *links = links_head;
-        }
-	while (n > 0);
+t_links		*dead_links(t_links **links)
+{
+	t_links		*links_head;
+	int			n;
+
+	n = 123;
+	while (n > 0)
+	{
+		n = 0;
+		links_head = *links;
+		*links = f_dowhilelinks(links, links_head, &n);
+	}
 	return (links_head);
 }

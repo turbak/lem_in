@@ -6,36 +6,20 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:53:49 by cauranus          #+#    #+#             */
-/*   Updated: 2020/01/14 14:02:15 by cauranus         ###   ########.fr       */
+/*   Updated: 2020/01/17 16:39:07 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-/*
-* дебажный вывод
-*/
-void	write_d(t_lem_in *stat)
-{
-	printf("%d\n", stat->ants);
-	while (stat->rooms)
-	{
-		printf("start : %d\n", stat->rooms->start);
-		printf("end : %d\n", stat->rooms->end);
-		printf("name : [%s] pos_x : [%d] pos_y : [%d]\n", stat->rooms->name, stat->rooms->x, stat->rooms->y);
-		stat->rooms = stat->rooms->next;
-	}
-	ft_putchar('\n');
-}
-/*
-* создание комнаты
-*/
-t_rooms *room_init(char **str, int com)
+
+t_rooms	*room_init(char **str, int com)
 {
 	int		i;
 	t_rooms *room;
-	
+
 	i = -1;
-	room = (t_rooms *)malloc(sizeof(t_rooms));
+	if (!(room = (t_rooms *)malloc(sizeof(t_rooms))))
+		error("Malloc error");
 	room->next = NULL;
 	room->ants = 0;
 	room->name = ft_strdup(str[0]);
@@ -49,19 +33,17 @@ t_rooms *room_init(char **str, int com)
 	while (str[++i])
 		ft_strdel(&str[i]);
 	free(str);
-	str = NULL;
 	return (room);
 }
-/*
-* создание линка
-*/
+
 t_links	*link_init(char **str, t_rooms *rooms)
 {
-	int i;
-	t_links *link;
-	
+	int		i;
+	t_links	*link;
+
 	i = -1;
-	link = (t_links*)malloc(sizeof(t_links));
+	if (!(link = (t_links*)malloc(sizeof(t_links))))
+		error("Malloc error");
 	if (!(link->s = find_room(rooms, str[0])))
 		error("Link read error");
 	if (!(link->f = find_room(rooms, str[1])))
@@ -70,12 +52,9 @@ t_links	*link_init(char **str, t_rooms *rooms)
 	while (str[++i])
 		ft_strdel(&str[i]);
 	free(str);
-	str = NULL;
 	return (link);
 }
-/*
-* парсинг всего(работает медленно и с ошибками, надо допилить)
-*/
+
 void	read_stat(t_lem_in *stat)
 {
 	int i;
@@ -84,6 +63,8 @@ void	read_stat(t_lem_in *stat)
 	i = 0;
 	stat->rooms = NULL;
 	stat->links = NULL;
+	if (!ft_isint(stat->read[i]))
+		error("No ants");
 	stat->ants = ft_atoi(stat->read[i++]);
 	while (stat->read[i])
 	{
@@ -92,17 +73,14 @@ void	read_stat(t_lem_in *stat)
 		if ((com = command(stat->read[i])))
 			i++;
 		if (is_room(stat->read[i]))
-			roomadd(&stat->rooms, room_init(ft_strsplit(stat->read[i], ' '), com));
+			roomadd(&stat->rooms,
+			room_init(ft_strsplit(stat->read[i], ' '), com));
 		else if (is_link(stat->read[i]))
-			linkadd(&stat->links, link_init(ft_strsplit(stat->read[i], '-'), stat->rooms));
+			linkadd(&stat->links,
+			link_init(ft_strsplit(stat->read[i], '-'), stat->rooms));
 		i++;
 	}
-	//if (!validate(stat))
-	//{
-	//	free_stat(stat);
-	//	error("Invalid input");
-	//}
-	id_matrix(stat);
+	error_mngr(stat);
 	bfs(stat);
 }
 

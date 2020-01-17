@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstrev.c                                        :+:      :+:    :+:   */
+/*   ft_swapfree.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/25 01:05:11 by cauranus          #+#    #+#             */
-/*   Updated: 2020/01/17 16:15:58 by cauranus         ###   ########.fr       */
+/*   Created: 2019/09/17 18:23:17 by cauranus          #+#    #+#             */
+/*   Updated: 2019/10/13 19:59:09 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-t_list	*ft_lstrev(t_list *lst)
+void	ft_swapfree(void **ptr, void *ptr2)
 {
-	t_list *list;
-	t_list *cur;
-	t_list *next;
+	void	*temp;
 
-	cur = lst;
-	list = NULL;
-	while (cur)
-	{
-		next = cur->next;
-		cur->next = list;
-		list = cur;
-		cur = next;
-	}
-	lst = list;
+	temp = ptr2;
+	free(*ptr);
+	*ptr = temp;
 }
