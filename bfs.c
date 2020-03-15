@@ -112,7 +112,7 @@ void	bfs(t_lem_in *stat)
 			find->f->name) ? find->s : find->f));
 			find = find->next;
 		}
-		if (queue)
+		if (queue && queue->room->bfs != __INT_MAX__)
 			stat->start = queue->room;
 		find = find_head;
 	}

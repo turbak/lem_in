@@ -44,8 +44,8 @@ void	print_turns(t_roompath *path)
 		{
 			path->turns->room = path->turns->room->next;
 			if (path->turns->room)
-				ft_printf("L%d-%s ", path->turns->ant_num,
-				path->turns->room->name);
+				ft_printf("L%d-%s%s", path->turns->ant_num,
+				path->turns->room->name, path->turns->next == NULL ? "" : " ");
 			path->turns = path->turns->next;
 		}
 		free_turns(&turn_head);
