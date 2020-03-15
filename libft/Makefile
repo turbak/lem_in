@@ -1,5 +1,4 @@
 NAME = libft.a
-FT_PRINTF = ft_printf/libftprintf.a
 FILES = ft_atoi.c\
 		ft_isdigit.c\
 		ft_lstdelone.c\
@@ -70,7 +69,21 @@ FILES = ft_atoi.c\
 		ft_strset.c\
 		ft_sqrt.c\
 		ft_lstfreeone.c\
-		ft_isint.c
+		ft_isint.c\
+		base_transfer.c\
+		get_conversions.c\
+		ft_dtoa.c\
+		ft_itoa_p.c\
+		ft_printf.c\
+		ft_putchar_unicode.c\
+		ft_strlenw.c\
+		parcer.c\
+		put_16x.c\
+		put_char.c\
+		put_int_unsigned.c\
+		put_int.c\
+		putst.c\
+		struct_init.c
 
 OBJ			= $(patsubst %.c, %.o, $(FILES))
 FLAGS		=  -Wall -Werror -Wextra
@@ -80,10 +93,7 @@ all: $(NAME)
 
 .PHONY: clean fclean re
 
-$(FT_PRINTF):
-		make -C ft_printf
-
-$(NAME): $(OBJ) $(FT_PRINTF)
+$(NAME): $(OBJ)
 	ar rcs $(NAME) $(OBJ)
 
 %.o: %.c $(HEADER)
@@ -91,10 +101,8 @@ $(NAME): $(OBJ) $(FT_PRINTF)
 
 clean:
 	rm -f $(OBJ)
-	make clean -C ft_printf
 
 fclean:clean
 	rm -f $(NAME)
-	make fclean -C ft_printf
 
 re: fclean all

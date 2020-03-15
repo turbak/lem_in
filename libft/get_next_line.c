@@ -18,7 +18,8 @@ int				get_next_line(const int fd, char **line)
 	char			buf[BUFF_SIZE + 1];
 	int				n;
 
-	CHECKRETURN(fd < 0 || !line || (read(fd, buf, 0) < 0), -1);
+	if (fd < 0 || !line || read(fd, buf, 0) < 0)
+		return (-1);
 	if (!a[fd])
 		a[fd] = ft_strnew(0);
 	while ((n = read(fd, buf, BUFF_SIZE)))
@@ -28,7 +29,8 @@ int				get_next_line(const int fd, char **line)
 		if (ft_strchr(a[fd], '\n'))
 			break ;
 	}
-	CHECKRETURN((!n && *a[fd] == '\0'), 0);
+	if (!n && *a[fd] == '\0')
+		return (0);
 	n = 0;
 	while (a[fd][n] && a[fd][n] != '\n')
 		n++;

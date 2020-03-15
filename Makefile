@@ -28,7 +28,7 @@ $(LIBFT):
 	$(MAKE) -SC libft all
 
 $(NAME) : $(OBJ) $(LIBFT)
-	gcc $(CPPFLAGS) -o $(NAME) $(OBJ) $(LIBFT) libft/ft_printf/libftprintf.a
+	gcc $(CPPFLAGS) -o $(NAME) $(OBJ) $(LIBFT)
 
 %.o: %.c $(HEADER) $(LIBFT)
 	gcc -I . $(CPPFLAGS) -c $< -o $@

@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 16:21:28 by cauranus          #+#    #+#             */
-/*   Updated: 2020/01/17 17:53:03 by cauranus         ###   ########.fr       */
+/*   Updated: 2020/01/17 19:02:49 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ void	print_turns(t_roompath *path)
 		{
 			path->turns->room = path->turns->room->next;
 			if (path->turns->room)
-				ft_printf("L%d-%s%s", path->turns->ant_num,
-				path->turns->room->name, path->turns->next ? " " : "");
+				ft_printf("L%d-%s ", path->turns->ant_num,
+				path->turns->room->name);
 			path->turns = path->turns->next;
 		}
 		free_turns(&turn_head);

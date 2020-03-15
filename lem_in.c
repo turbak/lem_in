@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 19:23:46 by cauranus          #+#    #+#             */
-/*   Updated: 2020/01/17 17:27:45 by cauranus         ###   ########.fr       */
+/*   Updated: 2020/02/17 18:24:19 by tgarkbit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int		main(int ac, char **av)
 	int		fd;
 
 	fd = open(av[1], O_RDONLY);
-	//fd = 0;
 	tmp = ft_strnew(0);
 	while (get_next_line(fd, &line) > 0)
 	{

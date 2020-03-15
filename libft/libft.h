@@ -6,19 +6,18 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/04 13:52:28 by cauranus          #+#    #+#             */
-/*   Updated: 2020/01/17 17:47:24 by cauranus         ###   ########.fr       */
+/*   Updated: 2020/01/17 18:58:44 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# define BUFF_SIZE 7
-# define CHECKRETURN(a, b) if(a) return (b);
+# define BUFF_SIZE 25
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
 # include <fcntl.h>
-# include "ft_printf/ft_printf.h"
+# include "ft_printf.h"
 
 int					ft_isalnum(int c);
 int					ft_isalpha(int c);
@@ -77,7 +76,6 @@ int					ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t				ft_strnlen(const char *str, size_t size);
 int					ft_isupper(int c);
 int					ft_islower(int c);
-char				*ft_strrev(const char *s);
 char				*ft_strndup(const char *s1, int len);
 void				ft_swapfree(void **ptr, void *ptr2);
 int					get_next_line(const int fd, char **line);
