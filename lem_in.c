@@ -48,7 +48,8 @@ int		main(int ac, char **av)
 	char	*tmp;
 	int		fd;
 
-	fd = 0;
+	fd = open(av[1], O_RDONLY);
+	//fd = 0;
 	tmp = ft_strnew(0);
 	while (get_next_line(fd, &line) > 0)
 	{
