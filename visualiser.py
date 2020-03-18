@@ -19,6 +19,19 @@ def examaple():
     tk.mainloop()
 
 
+class Link:
+    def __init__(self):
+        self.start = None
+        self.end = None
+
+
+class Room:
+    def __init__(self, name, x, y):
+        self.name = name
+        self.x = x
+        self.y = y
+
+
 def main():
     if len(sys.argv) == 2:
         fname = sys.argv[1]
@@ -28,18 +41,38 @@ def main():
     window.title('lem-in')
     canvas = tkinter.Canvas(window, background='white')
     canvas.pack(fill=BOTH, expand=YES)
-    canvas.create_line(100, 180, 100, 60, fill='green',
-                       width=5, arrow=LAST, dash=(10, 2),
-                       activefill='lightgreen',
-                       arrowshape="10 20 10")
     file = open(fname, 'r')
     data = file.read()
     start = re.findall('##start\n\w+', data)[0].split('\n')[1]
-    links = re.findall('\w+-\w+\n', data)
-    rooms = re.findall('\w+ \d+ \d+\n', data)
+    links = re.findall('\w+-\w+', data)
+    rooms = re.findall('\w+ \d+ \d+', data)
     end = re.findall('##end\n\w', data)[0].split('\n')[1]
     paths = re.findall('L\d+-\w+', data)
-    #window.mainloop()
+    print(rooms)
+    print(links)
+    rooms_list = []
+    links_list = []
+    for room in rooms:
+        buf = room.split(' ')
+        rooms_list.append(Room(buf[0], int(buf[1]) * 50, int(buf[2]) * 50))
+    for link in links:
+        buf = link.split('-')
+        line = Link()
+        for room in rooms_list:
+            if room.name == buf[0]:
+                line.start = room
+            elif room.name == buf[1]:
+                line.end = room
+        links_list.append(line)
+    for link in links_list:
+        canvas.create_line(link.start.x, link.start.y, link.end.x, link.end.y)
+        canvas.create_oval(link.start.x, link.start.x, link.start.y, link.start.y,
+                           outline="gray", fill="gray", width=30)
+        canvas.create_oval(link.end.x, link.end.x, link.end.y, link.end.y,
+                           outline="gray", fill="gray", width=30)
+    print(links_list)
+    window.mainloop()
+
 
 if __name__ == '__main__':
     main()
