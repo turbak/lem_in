@@ -1,0 +1,37 @@
+10
+Ann 23 3
+##start
+Banana 16 5
+#comment
+Cat 16 3
+Dog 16 7
+Egg 9 3
+##end
+Frog 1 5
+Golf 4 8
+Hello 9 5
+Hello-Dog
+Hello-Frog
+Ann-Cat
+Dog-Cat
+Egg-Banana
+Cat-Egg
+#another comment
+Dog-Banana
+Banana-Ann
+Golf-Frog
+Golf-Banana
+Golf-Dog
+Frog-Egg
+
+L1-Egg
+L1-Frog L2-Egg
+L2-Frog L3-Egg
+L3-Frog L4-Egg
+L4-Frog L5-Egg
+L5-Frog L6-Egg
+L6-Frog L7-Egg
+L7-Frog L8-Egg
+L8-Frog L9-Egg
+L9-Frog L10-Egg
+L10-Frog
