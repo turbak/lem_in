@@ -22,6 +22,12 @@ def examaple():
 	tk.mainloop()
 
 
+class Path:
+	def __init__(self):
+		self.room_name = None
+		self.ant_num = None
+
+
 class Link:
 	def __init__(self):
 		self.start = None
@@ -60,10 +66,11 @@ def main():
 	links = re.findall('\w+-\w+', data)
 	rooms = re.findall('\w+ \d+ \d+', data)
 	end = re.findall('##end\n\w', data)[0].split('\n')[1]
-	paths = re.findall('L\d+-\w+', data)
+	paths = re.findall('L.*?\n', data)
 	# print(rooms)
-	print(links)
-	# print(paths)
+	# print(links)
+	print(paths)
+	paths_list = []
 	rooms_list = []
 	links_list = []
 	for room in rooms:
@@ -81,9 +88,10 @@ def main():
 				elif room.name == buf[1]:
 					line.end = room
 			links_list.append(line)
+	for path in paths:
+		buf = path.replace('\n', '')
 	for link in links_list:
 		draw(canvas, link.start.x, link.start.y, link.end.x, link.end.y, link.start.name, link.end.name)
-	print(links_list)
 	window.mainloop()
 
 
