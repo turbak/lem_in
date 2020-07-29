@@ -1,0 +1,16 @@
+3
+##start
+start 1 3
+##end
+end 5 7
+millieu 9 2
+cote 13 8
+start-millieu
+millieu-cote
+cote-end
+
+L1-millieu
+L1-cote L2-millieu
+L1-end L2-cote L3-millieu
+L2-end L3-cote
+L3-end
