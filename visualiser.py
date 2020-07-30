@@ -2,68 +2,94 @@
 
 import re
 import sys
-import tkinter
-from tkinter.constants import *
+import pygame
+import pytweening
 
-from model import Room, Link, Move
+from model import Room, Link, Move, Ant
 
 ZOOM = 50
-NODE_SIZE = 25
+NODE_SIZE = 20
+SPEED = 5
+WINDOWWIDTH = 1500
+WINDOWHEIGHT = 1000
+FPS = 30
+BGCOLOR = [245, 222, 179]
+BLACK = [0, 0, 0]
+WHITE = [255, 255, 255]
+RED = [255, 0, 0]
+ANIM_SPEED = 5
 
-class App(tkinter.Tk):
-	def __init__(self, links, paths):
-		super().__init__()
-		self.geometry('1200x800')
-		self.title('lem-in')
+class Game:
+	def __init__(self, links, moves_list):
+		pygame.init()
+		pygame.key.set_repeat(150, 5)
+		self.clock = pygame.time.Clock()
+		self.screen = pygame.display.set_mode([WINDOWWIDTH, WINDOWHEIGHT], 0, 32)
+		self.fps = FPS
 		self.links = links
-		self.paths = paths
+		self.moves_list = moves_list
+		self.ants = []
 		self.current_move = 0
-		self.canvas = tkinter.Canvas(self, background='white')
-		canvas = self.canvas
-		canvas.bind_all('<Left>', self.moveLeft)
-		canvas.bind_all('<Right>', self.moveRight)
-		for link in links:
-			self.draw(canvas, link)
-		canvas.pack(fill=BOTH, expand=YES)
+		self.made_moves = set()
+		pygame.display.set_caption("lem-in visualizer\n")
 
-	def draw(self, canvas, link):
-		canvas.create_line(link.start.x, link.start.y, link.end.x, link.end.y, width=2)
-		canvas.create_oval(link.start.x - NODE_SIZE, link.start.y - NODE_SIZE,
-						   link.start.x + NODE_SIZE, link.start.y + NODE_SIZE, outline="black", fill="gray")
-		canvas.create_oval(link.end.x - NODE_SIZE, link.end.y - NODE_SIZE,
-						   link.end.x + NODE_SIZE, link.end.y + NODE_SIZE, outline="black", fill="gray")
-		canvas.create_text(link.start.x, link.start.y, text=link.start.name, font="Times 10 bold", fill='black')
-		canvas.create_text(link.end.x, link.end.y, text=link.end.name, font="Times 10 bold", fill='black')
+	def draw(self):
+		self.screen.fill(BGCOLOR)
+		for link in self.links:
+			pygame.draw.line(self.screen, BLACK, link.start.center, link.end.center, 3)
+			pygame.draw.circle(self.screen, WHITE, [link.start.x, link.start.y], NODE_SIZE)
+			pygame.draw.circle(self.screen, WHITE, [link.end.x, link.end.y], NODE_SIZE)
+			self.create_ants()
+			self.draw_ants()
+		pygame.display.flip()
 
-	def moveLeft(self, event):
-		print('LeftKey was pressed')
-		current_move = self.paths[self.current_move]
-		list_rect = []
-		for key in current_move:
-			ant = current_move[key]
-			rect = self.canvas.create_rectangle(ant.start.x, ant.start.y, ant.start.x + 20, ant.start.y + 20)
-			list_rect.append(rect)
-		self.animate(list_rect)
-		self.current_move += 1
-
-	def animate(self, list_rect):
-		for ant in list_rect:
-			self.canvas.move(ant)
-		# unpack array to variables
-		#пустить эту функицию в цикле для всех муравьев в ходу
+	def create_ants(self):
+		current_move = self.moves_list[self.current_move]
+		if self.current_move not in self.made_moves:
+			for key in current_move:
+				move = current_move[key]
+				self.ants.append(Ant(move.start.x, move.start.y, move.end.x, move.end.y))
+		self.made_moves.add(self.current_move)
 
 
-	def moveRight(self, event):
-		print('RightKey was pressed')
+	def events(self):
+		for self.event in pygame.event.get():
+			if self.event.type == 2:
+				print(self.event.key)
+				if self.event.key == 27:
+					quit(1)
+				elif self.event.key == 276:
+					print('move left')
+					self.current_move -= 1
+				elif self.event.key == 275:
+					print('move right')
+					self.current_move += 1
+
+	def run(self):
+		while 1:
+			self.clock.tick(self.fps)
+			self.events()
+			self.draw()
+			self.move_ants()
+
+	def move_ants(self):
+		for ant in self.ants:
+			if ant.anim_turn + ANIM_SPEED not in range(0, len(ant.line)):
+				self.ants.remove(ant)
+			else:
+				ant.anim_turn += ANIM_SPEED
+
+	def draw_ants(self):
+		for ant in self.ants:
+			current_pos = ant.line[ant.anim_turn]
+			pygame.draw.circle(self.screen, RED, current_pos, 3)
 
 
 def main():
 	if len(sys.argv) == 2:
-		fname = sys.argv[1]
+		map_name = sys.argv[1]
 	else:
 		exit(1)
-	file = open(fname, 'r')
-	map_name = sys.argv[1]
 	map_file = open(map_name, 'r')
 
 	# ввод данных
@@ -79,7 +105,7 @@ def main():
 	links_list = []
 	for room in rooms:
 		buf = room.split(' ')
-		rooms_dict[buf[0]] = (Room(buf[0], int(buf[1]) * ZOOM, int(buf[2]) * ZOOM))
+		rooms_dict[buf[0]] = (Room(buf[0], int(buf[1]) * ZOOM, int(buf[2]) * ZOOM, NODE_SIZE))
 		print(buf[0], buf[1], buf[2])
 	for link in links:
 		buf = link.split('-')
@@ -115,8 +141,8 @@ def main():
 					moves[ant_move[0]] = Move(previous_ant_move.end, rooms_dict[ant_move[1]], ant_move[0])
 		moves_list.append(moves)
 
-	app = App(links_list, moves_list)
-	app.mainloop()
+	game = Game(links_list, moves_list)
+	game.run()
 
 
 if __name__ == '__main__':

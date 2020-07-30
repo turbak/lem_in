@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import pytweening
 
 
 @dataclass
@@ -7,11 +8,12 @@ class Path:
     ant_num: int
 
 
-@dataclass
 class Room:
-    name: str
-    x: int
-    y: int
+    def __init__(self, name, x, y, nodesize):
+        self.name = name
+        self.x = x
+        self.y = y
+        self.center = (self.x + nodesize / 4, self.y + nodesize / 4)
 
 
 @dataclass
@@ -25,3 +27,13 @@ class Move:
     start: Room
     end: Room
     ant_name: str
+
+
+class Ant:
+    def __init__(self, x1, y1, x2, y2):
+        self.x1 = x1
+        self.y1 = y1
+        self.x2 = x2
+        self.y2 = y2
+        self.line = pytweening.getLine(x1, y1, x2, y2)
+        self.anim_turn = 0
