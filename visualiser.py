@@ -3,7 +3,6 @@
 import re
 import sys
 import pygame
-import pytweening
 
 from model import Room, Link, Move, Ant
 
@@ -30,7 +29,7 @@ class Game:
 		self.moves_list = moves_list
 		self.ants = []
 		self.current_move = 0
-		self.made_moves = set()
+		self.made_move = None
 		pygame.display.set_caption("lem-in visualizer\n")
 
 	def draw(self):
@@ -45,11 +44,11 @@ class Game:
 
 	def create_ants(self):
 		current_move = self.moves_list[self.current_move]
-		if self.current_move not in self.made_moves:
+		if current_move != self.made_move:
 			for key in current_move:
 				move = current_move[key]
 				self.ants.append(Ant(move.start.x, move.start.y, move.end.x, move.end.y))
-		self.made_moves.add(self.current_move)
+			self.made_move = current_move
 
 
 	def events(self):
@@ -58,12 +57,14 @@ class Game:
 				print(self.event.key)
 				if self.event.key == 27:
 					quit(1)
-				elif self.event.key == 276:
+				elif self.event.key == 276 and self.current_move - 1 in range(0, len(self.moves_list) - 1):
 					print('move left')
 					self.current_move -= 1
-				elif self.event.key == 275:
+					self.made_move = None
+				elif self.event.key == 275 and self.current_move + 1 in range(0, len(self.moves_list) - 1):
 					print('move right')
 					self.current_move += 1
+					self.made_move = None
 
 	def run(self):
 		while 1:
