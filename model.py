@@ -13,7 +13,7 @@ class Room:
         self.name = name
         self.x = x
         self.y = y
-        self.center = (self.x + nodesize / 4, self.y + nodesize / 4)
+        self.center = (self.x + nodesize / 5, self.y + nodesize / 5)
 
 
 @dataclass
