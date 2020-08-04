@@ -8,6 +8,8 @@ from model import Room, Link, Move, Ant
 
 ZOOM = 50
 NODE_SIZE = 20
+LINE_SIZE = 3
+ANT_SIZE = 5
 SPEED = 5
 WINDOWWIDTH = 1500
 WINDOWHEIGHT = 1000
@@ -48,7 +50,7 @@ class Game:
         # place = text.get_rect(center=(200, 150))
         # self.screen.blit(text, place)
         for link in self.links:
-            pygame.draw.line(self.screen, BLACK, link.start.center, link.end.center, 3)
+            pygame.draw.line(self.screen, BLACK, link.start.center, link.end.center, LINE_SIZE)
             pygame.draw.circle(self.screen, WHITE, [link.start.x, link.start.y], NODE_SIZE)
             pygame.draw.circle(self.screen, WHITE, [link.end.x, link.end.y], NODE_SIZE)
             self.create_ants()
@@ -100,7 +102,7 @@ class Game:
     def draw_ants(self):
         for ant in self.ants:
             current_pos = ant.line[ant.anim_turn]
-            pygame.draw.circle(self.screen, RED, current_pos, 4)
+            pygame.draw.circle(self.screen, RED, current_pos, ANT_SIZE)
 
 
 def main():
@@ -112,7 +114,6 @@ def main():
 
     # ввод данных
     map_data = map_file.read()
-    ants_count = re.findall('^\w+', map_data)
     links = re.findall('\w+-\w+', map_data)
     rooms = re.findall('\w+ \d+ \d+', map_data)
     paths = re.findall('(L.*?)\n', map_data)
@@ -137,10 +138,7 @@ def main():
                     line.end = room
             links_list.append(line)
 
-    ants_cords_dict = {}
     start_room = re.findall('##start\n(\w+)', map_data)[0].split('\n')[0]
-    for i in range(1, int(ants_count[0]) + 1):
-        ants_cords_dict[i] = [start_room]
 
     moves_list = []
     moved_ants = set()
