@@ -16,7 +16,14 @@ BGCOLOR = [245, 235, 179]
 BLACK = [0, 0, 0]
 WHITE = [255, 255, 255]
 RED = [255, 0, 0]
-ANIM_SPEED = 5
+ANIM_SPEED = 25
+
+# Управление
+# стрелка вверх - ускорение анимации
+# стрелка вниз - замедление анимации
+# стрелка вправо - следующий ход
+# стрелка влево - предыдущий ход
+# ESC - выход
 
 
 class Game:
@@ -31,10 +38,15 @@ class Game:
         self.ants = []
         self.current_move = 0
         self.made_move = None
+        self.anim_speed = ANIM_SPEED
         pygame.display.set_caption("lem-in visualizer\n")
 
     def draw(self):
         self.screen.fill(BGCOLOR)
+        # font = pygame.font.SysFont('serif', 48)
+        # text = font.render("World Мир", 0, (0, 180, 0)) так можно выводить текст, например, для управления
+        # place = text.get_rect(center=(200, 150))
+        # self.screen.blit(text, place)
         for link in self.links:
             pygame.draw.line(self.screen, BLACK, link.start.center, link.end.center, 3)
             pygame.draw.circle(self.screen, WHITE, [link.start.x, link.start.y], NODE_SIZE)
@@ -57,14 +69,19 @@ class Game:
                 print(self.event.key)
                 if self.event.key == 27:
                     quit(1)
-                elif self.event.key == 276 and self.current_move - 1 in range(0, len(self.moves_list) - 1):
-                    print('move left')
-                    self.current_move -= 1
-                    self.made_move = None
-                elif self.event.key == 275 and self.current_move + 1 in range(0, len(self.moves_list) - 1):
-                    print('move right')
-                    self.current_move += 1
-                    self.made_move = None
+                elif self.event.key == 273:
+                    self.anim_speed += 1
+                elif self.event.key == 274 and self.anim_speed > 2:
+                    self.anim_speed -= 1
+                if not self.ants:
+                    if self.event.key == 276 and self.current_move - 1 in range(0, len(self.moves_list) - 1):
+                        print('move left')
+                        self.current_move -= 1
+                        self.made_move = None
+                    elif self.event.key == 275 and self.current_move + 1 in range(0, len(self.moves_list) - 1):
+                        print('move right')
+                        self.current_move += 1
+                        self.made_move = None
 
     def run(self):
         while 1:
@@ -75,10 +92,10 @@ class Game:
 
     def move_ants(self):
         for ant in self.ants:
-            if ant.anim_turn + ANIM_SPEED not in range(0, len(ant.line)):
+            if ant.anim_turn + self.anim_speed not in range(0, len(ant.line)):
                 self.ants.remove(ant)
             else:
-                ant.anim_turn += ANIM_SPEED
+                ant.anim_turn += self.anim_speed
 
     def draw_ants(self):
         for ant in self.ants:
